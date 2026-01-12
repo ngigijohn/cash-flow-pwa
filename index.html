@@ -1,89 +1,382 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="theme-color" content="#fd9800" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Easily manage your finances, Track your daily expensess and watch your spending habits."
+    />
+    <meta name="author" content="John Ngigi " />
+    <link rel="canonical" href="./index.html" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="icon" href="favicon.ico" />
+    <link rel="apple-touch-icon" href="/icons/144x144.png" />
+    <link rel="shortcut-icon" href="/icons/144x144.png" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/css/style.css" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-title" content="Cash Flow" />
+    <meta name="msapplication-TileImage" content="/icons/144x144.png" />
+    <meta name="msapplication-TileColor" content="#FFFFFF" />
+    <title>Cash flow</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="theme-color" content="#fd9800">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description"
-    content="Easily manage your finances, Track your daily expensess and watch your spending habits.">
-  <meta name="author" content="John Ngigi ">
-  <link rel="canonical" href="./index.html" />
-  <link rel="manifest" href="manifest.json">
-  <link rel="icon" href="favicon.ico" />
-  <link rel="apple-touch-icon" href="/icons/144x144.png" />
-  <link rel="shortcut-icon" href="/icons/144x144.pn g">
-  <link rel="stylesheet" href="/css/style.css">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="Cash Flow">
-  <meta name="msapplication-TileImage" content="/icons/144x144.png">
-  <meta name="msapplication-TileColor" content="#FFFFFF">
-</head>
-<title>Cash flow</title>
-</head>
-
-<body class="dark">
-  <nav class="">
-    <a class="navbar-brand" href="#">Cash flow💸</a>
-    <a class="total-balance nav-link"></a>
-  </nav>
-
-
-  <main class="container">
-    <section class="daily-transaction">
-      <header class="day-info">
-        <div class="day-name"></div>
-        <div class="day-date"></div>
-        <div class="days-total"></div>
-      </header>
-      <table class="">
-        <thead class="">
-          <tr>
-            <td>ID</td>
-            <td>
-              Amount
-            </td>
-            <td>
-              Time
-            </td>
-            <td>
-              Description
-            </td>
-            <td></td>
-          </tr>
-        </thead>
-        <tbody class="">
-
-        </tbody>
-      </table>
-    </section>
-    <form action="" method="" class="user-input">
-      <div>
-        <label for="input-amount">Amount</label>
-        <input type="number" name="input-amount" id="input-amount" placeholder="100">
-        <input type="submit" class="" id="add" value="Add" />
+  <body class="dark">
+    <nav class="navbar navbar-dark bg-dark fixed-top">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#"
+          ><i class="fas fa-wallet"></i> Cash Flow</a
+        >
+        <div class="d-flex align-items-center">
+          <a class="total-balance nav-link text-white me-3"></a>
+          <button
+            class="btn btn-sm btn-outline-light settings-btn"
+            id="settingsBtn"
+            title="Budget Settings"
+          >
+            <i class="fas fa-cog"></i>
+          </button>
+        </div>
       </div>
-      <div>
-        <label for="input-description">Description</label>
-        <textarea name="input-description" placeholder="e.g. 150 grams coffee" id="input-description" cols="30"
-          rows="4"></textarea>
+    </nav>
+
+    <!-- View Navigation Bar -->
+    <nav class="view-nav">
+      <button class="view-btn active" data-view="daily">
+        <i class="fas fa-calendar-day"></i> Daily
+      </button>
+      <button class="view-btn" data-view="monthly">
+        <i class="fas fa-chart-bar"></i> Monthly
+      </button>
+      <button class="view-btn" data-view="categories">
+        <i class="fas fa-tags"></i> Categories
+      </button>
+      <button class="view-btn" data-view="settings">
+        <i class="fas fa-sliders-h"></i> Settings
+      </button>
+    </nav>
+
+    <main class="container">
+      <!-- Daily View -->
+      <section id="daily-view" class="view-section active">
+        <section class="daily-transaction">
+          <header class="day-info">
+            <button class="nav-btn prev-day" id="prev-day-btn">
+              <i class="fas fa-chevron-left"></i> Previous
+            </button>
+            <div class="date-display">
+              <div class="day-name"></div>
+              <div class="day-date"></div>
+            </div>
+            <button class="nav-btn next-day" id="next-day-btn">
+              Next <i class="fas fa-chevron-right"></i>
+            </button>
+          </header>
+          <div class="days-total"></div>
+          <table class="table table-striped table-hover">
+            <thead class="table-dark">
+              <tr>
+                <th>ID</th>
+                <th>Amount</th>
+                <th>Category</th>
+                <th>Time</th>
+                <th>Description</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </section>
+
+        <!-- Category Summary Section -->
+        <section class="category-summary">
+          <h3><i class="fas fa-chart-pie"></i> Spending by Category</h3>
+          <div id="categorySummary" class="summary-grid"></div>
+        </section>
+      </section>
+
+      <!-- Monthly View -->
+      <section id="monthly-view" class="view-section">
+        <div class="monthly-header">
+          <h2><i class="fas fa-calendar-alt"></i> Monthly Report</h2>
+          <div class="month-selector">
+            <button id="prev-month" class="nav-btn">
+              <i class="fas fa-chevron-left"></i> Previous
+            </button>
+            <span id="current-month"></span>
+            <button id="next-month" class="nav-btn">
+              Next <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+        <div class="monthly-stats">
+          <div class="stat-card">
+            <h4>Total Spent</h4>
+            <p id="monthly-total" class="stat-value">$0.00</p>
+          </div>
+          <div class="stat-card">
+            <h4>Average Daily</h4>
+            <p id="monthly-average" class="stat-value">$0.00</p>
+          </div>
+          <div class="stat-card">
+            <h4>Transactions</h4>
+            <p id="monthly-count" class="stat-value">0</p>
+          </div>
+        </div>
+        <div id="monthly-chart" class="monthly-breakdown"></div>
+      </section>
+
+      <!-- Categories View -->
+      <section id="categories-view" class="view-section">
+        <h2><i class="fas fa-tag"></i> Category Overview</h2>
+        <div id="categories-breakdown" class="categories-breakdown"></div>
+      </section>
+
+      <!-- Settings View -->
+      <section id="settings-view" class="view-section">
+        <h2><i class="fas fa-cog"></i> Settings & Statistics</h2>
+        <div class="settings-container">
+          <div class="settings-section">
+            <h3><i class="fas fa-piggy-bank"></i> Budget Management</h3>
+            <button
+              class="btn-settings btn btn-primary"
+              id="open-budget-settings"
+            >
+              <i class="fas fa-edit"></i> Set Budget Limits
+            </button>
+          </div>
+          <div class="settings-section">
+            <h3><i class="fas fa-database"></i> Data Management</h3>
+            <button class="btn-settings btn btn-info" id="export-data">
+              <i class="fas fa-download"></i> Export Data (JSON)
+            </button>
+            <button class="btn-settings btn btn-danger" id="clear-data">
+              <i class="fas fa-trash"></i> Clear All Data
+            </button>
+          </div>
+          <div class="settings-section">
+            <h3><i class="fas fa-bar-chart"></i> Statistics</h3>
+            <div id="overall-stats"></div>
+          </div>
+        </div>
+      </section>
+
+      <form action="" method="" class="user-input">
+        <div>
+          <label for="input-amount" class="form-label"
+            ><i class="fas fa-dollar-sign"></i> Amount</label
+          >
+          <input
+            type="number"
+            name="input-amount"
+            id="input-amount"
+            placeholder="100"
+            step="0.01"
+            class="form-control"
+          />
+          <input
+            type="submit"
+            class="btn btn-success mt-2"
+            id="add"
+            value="Add Transaction"
+          />
+        </div>
+        <div>
+          <label for="input-category" class="form-label"
+            ><i class="fas fa-list"></i> Category</label
+          >
+          <select name="input-category" id="input-category" class="form-select">
+            <option value="Food"><i class="fas fa-utensils"></i> Food</option>
+            <option value="Transport">
+              <i class="fas fa-car"></i> Transport
+            </option>
+            <option value="Entertainment">
+              <i class="fas fa-film"></i> Entertainment
+            </option>
+            <option value="Shopping">
+              <i class="fas fa-shopping-bag"></i> Shopping
+            </option>
+            <option value="Utilities">
+              <i class="fas fa-lightbulb"></i> Utilities
+            </option>
+            <option value="Health">
+              <i class="fas fa-hospital"></i> Health
+            </option>
+            <option value="Other"><i class="fas fa-circle"></i> Other</option>
+          </select>
+        </div>
+        <div>
+          <label for="input-description" class="form-label"
+            ><i class="fas fa-comment"></i> Description</label
+          >
+          <textarea
+            name="input-description"
+            placeholder="e.g. 150 grams coffee"
+            id="input-description"
+            class="form-control"
+            rows="4"
+          ></textarea>
+        </div>
+      </form>
+    </main>
+
+    <!-- Edit Modal -->
+    <div id="editModal" class="modal d-none">
+      <div class="modal-content">
+        <span class="close"><i class="fas fa-times"></i></span>
+        <h2><i class="fas fa-edit"></i> Edit Transaction</h2>
+        <form id="editForm">
+          <div class="mb-3">
+            <label for="edit-amount" class="form-label"
+              ><i class="fas fa-dollar-sign"></i> Amount</label
+            >
+            <input
+              type="number"
+              name="edit-amount"
+              id="edit-amount"
+              step="0.01"
+              class="form-control"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="edit-category" class="form-label"
+              ><i class="fas fa-list"></i> Category</label
+            >
+            <select name="edit-category" id="edit-category" class="form-select">
+              <option value="Food"><i class="fas fa-utensils"></i> Food</option>
+              <option value="Transport">
+                <i class="fas fa-car"></i> Transport
+              </option>
+              <option value="Entertainment">
+                <i class="fas fa-film"></i> Entertainment
+              </option>
+              <option value="Shopping">
+                <i class="fas fa-shopping-bag"></i> Shopping
+              </option>
+              <option value="Utilities">
+                <i class="fas fa-lightbulb"></i> Utilities
+              </option>
+              <option value="Health">
+                <i class="fas fa-hospital"></i> Health
+              </option>
+              <option value="Other"><i class="fas fa-circle"></i> Other</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="edit-description" class="form-label"
+              ><i class="fas fa-comment"></i> Description</label
+            >
+            <textarea
+              name="edit-description"
+              id="edit-description"
+              class="form-control"
+              rows="3"
+            ></textarea>
+          </div>
+          <div class="modal-buttons">
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-check"></i> Save
+            </button>
+            <button type="button" class="btn btn-secondary btn-cancel">
+              <i class="fas fa-times"></i> Cancel
+            </button>
+          </div>
+        </form>
       </div>
+    </div>
 
+    <!-- Budget Settings Modal -->
+    <div id="budgetModal" class="modal d-none">
+      <div class="modal-content">
+        <span class="close" id="budgetClose"><i class="fas fa-times"></i></span>
+        <h2><i class="fas fa-piggy-bank"></i> Budget Settings</h2>
+        <form id="budgetForm">
+          <div class="mb-3">
+            <label for="daily-budget" class="form-label"
+              ><i class="fas fa-calendar"></i> Daily Budget Limit ($)</label
+            >
+            <input
+              type="number"
+              name="daily-budget"
+              id="daily-budget"
+              step="0.01"
+              placeholder="0"
+              class="form-control"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="category-budget-food" class="form-label"
+              ><i class="fas fa-utensils"></i> Food Budget ($)</label
+            >
+            <input
+              type="number"
+              name="category-budget-food"
+              id="category-budget-food"
+              step="0.01"
+              placeholder="0"
+              class="form-control"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="category-budget-transport" class="form-label"
+              ><i class="fas fa-car"></i> Transport Budget ($)</label
+            >
+            <input
+              type="number"
+              name="category-budget-transport"
+              id="category-budget-transport"
+              step="0.01"
+              placeholder="0"
+              class="form-control"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="category-budget-entertainment" class="form-label"
+              ><i class="fas fa-film"></i> Entertainment Budget ($)</label
+            >
+            <input
+              type="number"
+              name="category-budget-entertainment"
+              id="category-budget-entertainment"
+              step="0.01"
+              placeholder="0"
+              class="form-control"
+            />
+          </div>
+          <div class="modal-buttons">
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-save"></i> Save Budget
+            </button>
+            <button type="button" class="btn btn-secondary btn-cancel-budget">
+              <i class="fas fa-times"></i> Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
 
-    </form>
-  </main>
-
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('serviceworker.js')
-          .then((reg) => console.log('Success: ', reg.scope))
-          .catch((err) => console.log('Failure: ', err));
-      })
-    }
-  </script>
-  <script src="/js/app.js"></script>
-</body>
-
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker
+            .register("serviceworker.js")
+            .then((reg) => console.log("Success: ", reg.scope))
+            .catch((err) => console.log("Failure: ", err));
+        });
+      }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/views.js"></script>
+    <script src="/js/app.js"></script>
+  </body>
 </html>

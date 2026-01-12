@@ -32,7 +32,7 @@ self.onfetch = function (event) {
 
             } else {
                 console.log('responding2');
-                fetch(event.request);
+                return fetch(event.request);
             }
         }))
 }
